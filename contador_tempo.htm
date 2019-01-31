@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<meta charset="utf-8"> 
+<html>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="contador.js"></script>
+
+<body onload="tempoEfetivo()"> <!-- Ao iniciar o programa o html carrega o contador -->
+	<h1>Contador em segundos</h1>
+	<p>Este código conta se o usuário fica com o cursor em cima do formulário por pelo menos 30 segundos. Evento utilizado mouseover.
+	<div id="contador" name="contador" align="center">
+		<p id="contagem" name="contagem"></p> <!-- Contagem dos segundos -->
+	</div>
+
+	<form id="formulario1" name="formulario1" style="width: 500px; float:left; height:500px; background:red; margin:10px">
+		Formulário 1
+	</form>
+	<form id="formulario2" name="formulario2" style="width: 500px; float:left; height:500px; background:yellow; margin:10px">
+		Formulário 2
+	</form>
+</body>
+</html> 
