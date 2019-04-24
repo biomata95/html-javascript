@@ -1,0 +1,97 @@
+<!-- Neste código o programa salvará os dados dos campos no storage a cada 15 segundos. Se o navegador fechar, basta
+    clicar no botão capturar dados e os dados que foram preenchidos serão recuperados. E se o botão submeter
+    for clicado o storage será apagado, porque insinuará que as informações foram comitadas no banco de dados
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Example of HTML5 Local Storage</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+// Get input nome
+function gravaAutomatico(){
+    var nome = $("#nome").val();
+    // Get input telefone
+    var telefone = $("#telefone").val();
+    // Get input email
+    var email = $("#email").val();
+    // Get input texto
+    var texto = $("#texto").val();
+
+    // Store dados
+    localStorage.setItem("nome_armazenado", nome);
+    localStorage.setItem("telefone_armazenado", telefone);
+    localStorage.setItem("email_armazenado", email);
+    localStorage.setItem("texto_armazenado", texto);
+
+    console.log("Gravação realizada com sucesso.")
+}
+
+
+$(document).ready(function(){
+	$(".access").click(function(){
+		// Recupera dados
+		$("#nome").val(localStorage.getItem("nome_armazenado"));
+		$("#telefone").val(localStorage.getItem("telefone_armazenado"));
+		$("#email").val(localStorage.getItem("email_armazenado"));
+		$("#texto").val(localStorage.getItem("texto_armazenado"));
+	});
+	$(".submeter").click(function(){
+		// Submeter dados e limpar storage
+       localStorage.clear();
+       alert("Dados inseridos no banco de dados!");
+   	});
+});
+
+</script>
+
+<script>
+/*  Timestamp de 15 segundos*/
+
+var segundos = 0
+function startTime() {
+    if(segundos == 15){ /* Se forem completados 15 segundos, então realiza a operção abaixo */
+        console.log("Gravação automática iniciada");
+        gravaAutomatico(); /* Função que grava os dados dos formulários automáticamente a cada 15 segundos. */
+        segundos = 0; /* Zera o contador de segundos */
+    }
+    segundos = checkTime(segundos);
+    var tempo = setTimeout(function(){ startTime() }, 1000);
+}
+
+function checkTime(i) {
+    if (i < 15) /* Seta para 15 segundos o contador */
+        i = 1 + i;
+    return i;
+}
+
+</script>
+
+</head>
+<body onload="startTime()">
+    <form>
+    	<label>Nome: <input type="text" id="nome"></label>
+    	<br>
+    	<br>
+    	<label>Telefone: <input type="text" id="telefone"></label>
+    	<br>
+    	<br>
+    	<label>Email: <input type="text" id="email"></label>
+    	<br>
+    	<br>
+    	<label>Texto:</label>
+    	<br>
+    	<textarea id="texto" cols="30" rows="10" ></textarea>
+    	<br>
+    	<br>
+        <button type="button" class="access">Capturar Dados</button>
+        <br>
+        <br>
+        <button type="button" class="submeter">Submeter Dados</button>
+    </form>
+</body>
+</html>                            
