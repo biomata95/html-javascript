@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Example of HTML5 Local Storage</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+// Check if the localStorage object exists
+if(localStorage){
+	$(document).ready(function(){
+		$(".save").click(function(){
+			// Get input nome
+			var nome = $("#nome").val();
+			// Get input telefone
+			var telefone = $("#telefone").val();
+			// Get input email
+			var email = $("#email").val();
+			// Get input texto
+			var texto = $("#texto").val();
+			
+			// Store dados
+    		localStorage.setItem("nome_armazenado", nome);
+    		localStorage.setItem("telefone_armazenado", telefone);
+    		localStorage.setItem("email_armazenado", email);
+    		localStorage.setItem("texto_armazenado", texto);
+			
+			// Limpa os campos. Apenas como exemplo ilustrativo
+			$("#nome").val('');
+			$("#telefone").val('');
+			$("#email").val('');
+			$("#texto").val('');
+		});
+		$(".access").click(function(){
+			// Recupera dados
+    		$("#nome").val(localStorage.getItem("nome_armazenado"));
+    		$("#telefone").val(localStorage.getItem("telefone_armazenado"));
+    		$("#email").val(localStorage.getItem("email_armazenado"));
+    		$("#texto").val(localStorage.getItem("texto_armazenado"));
+		});
+		$(".submeter").click(function(){
+			// Submeter dados e limpar storage
+	       localStorage.clear();
+       	});
+	});
+} else{
+    alert("Seu navegador não suporta storage.");
+}
+</script>
+</head>
+<body>
+    <form>
+    	<label>Nome: <input type="text" id="nome"></label>
+    	<br>
+    	<br>
+    	<label>Telefone: <input type="text" id="telefone"></label>
+    	<br>
+    	<br>
+    	<label>Email: <input type="text" id="email"></label>
+    	<br>
+    	<br>
+    	<label>Texto:</label>
+    	<br>
+    	<textarea id="texto" cols="30" rows="10" ></textarea>
+    	<br>
+    	<br>
+        <button type="button" class="save">Salvar Dados</button>
+        <button type="button" class="access">Capturar Dados</button>
+        <br>
+        <br>
+        <button type="button" class="submeter">Submeter Dados</button>
+    </form>
+</body>
+</html>                            
