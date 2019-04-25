@@ -1,0 +1,141 @@
+<!-- Neste código o programa salvará os dados dos campos no storage a cada 15 segundos. Se o navegador fechar, basta
+    clicar no botão capturar dados e os dados que foram preenchidos serão recuperados. E se o botão submeter
+    for clicado o storage será apagado, porque insinuará que as informações foram comitadas no banco de dados
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Example of HTML5 Local Storage</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+var d1 = new Date("12/12/2013");
+var d2 = new Date("12/12/2014");
+var timeDiff = d2.getTime() - d1.getTime();
+var DaysDiff = timeDiff / (1000 * 3600 * 24);
+
+function gravaAutomatico(){
+    // Get input nome
+    var nome = $("#nome").val();
+    // Get input telefone
+    var telefone = $("#telefone").val();
+    // Get input email
+    var email = $("#email").val();
+    // Get input texto
+    var texto = $("#texto").val();
+
+    // Data
+    var d = new Date();
+    
+    // Store dados
+    localStorage.setItem("nome_armazenado", nome);
+    localStorage.setItem("telefone_armazenado", telefone);
+    localStorage.setItem("email_armazenado", email);
+    localStorage.setItem("texto_armazenado", texto);
+    localStorage.setItem("data_armazenada", d);
+
+    console.log("Gravação realizada com sucesso.")
+}
+
+
+$(document).ready(function(){
+	$(".submeter").click(function(){
+		// Submeter dados e limpar storage
+       localStorage.clear();
+       alert("Dados inseridos no banco de dados!");
+   	});
+});
+
+</script>
+
+<script>
+/*  Timestamp de 15 segundos */
+
+var segundos = 0
+function startTime() {
+    if(segundos == 15){ /* Se forem completados 15 segundos, então realiza a operção abaixo */
+        console.log("Gravação automática iniciada");
+        gravaAutomatico(); /* Função que grava os dados dos formulários automáticamente a cada 15 segundos. */
+        segundos = 0; /* Zera o contador de segundos */
+    }
+    segundos = checkTime(segundos);
+    var tempo = setTimeout(function(){ startTime() }, 1000);
+}
+
+function checkTime(i) {
+    if (i < 15) /* Seta para 15 segundos o contador */
+        i = 1 + i;
+    return i;
+}
+
+function parseDate(str) {
+    var mdy = str.split('/');
+    return new Date(mdy[2], mdy[0]-1, mdy[1]);
+}
+
+
+function datediff(first, second) {
+    // Take the difference between the dates and divide by milliseconds per day.
+    // Round to nearest whole number to deal with DST.
+    return Math.round((second-first)/(1000*60*60*24));
+}
+
+
+function carregaScript(){
+
+    var d = new Date();
+    
+    var data_armazenada = localStorage.getItem("data_armazenada");
+
+    console.log(data_armazenada);
+    console.log(d);
+
+    var res = Math.abs(d - data_armazenada) / 1000;
+    var days = Math.floor(res / 86400);
+    console.log(days);
+
+    if (confirm("Você deseja carregar dados digitados anteriormente?")) {
+        $("#nome").val(localStorage.getItem("nome_armazenado"));
+        $("#telefone").val(localStorage.getItem("telefone_armazenado"));
+        $("#email").val(localStorage.getItem("email_armazenado"));
+        $("#texto").val(localStorage.getItem("texto_armazenado"));
+        startTime();
+    } else {
+        localStorage.clear();
+        startTime();
+    }
+}
+
+function dayDiff(d1, d2)
+{
+  d1 = d1.getTime() / 86400000;
+  d2 = d2.getTime() / 86400000;
+  return new Number(d2 - d1).toFixed(0);
+}
+
+</script>
+
+</head>
+<body onload="carregaScript()">
+    <form>
+    	<label>Nome: <input type="text" id="nome"></label>
+    	<br>
+    	<br>
+    	<label>Telefone: <input type="text" id="telefone"></label>
+    	<br>
+    	<br>
+    	<label>Email: <input type="text" id="email"></label>
+    	<br>
+    	<br>
+    	<label>Texto:</label>
+    	<br>
+    	<textarea id="texto" cols="30" rows="10" ></textarea>
+        <br>
+        <br>
+        <button type="button" class="submeter">Submeter Dados</button>
+    </form>
+</body>
+</html>                            
